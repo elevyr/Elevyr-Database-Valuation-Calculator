@@ -78,6 +78,23 @@
             return new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD', maximumFractionDigits: 0, minimumFractionDigits: 0 }).format(value);
         };
 
+        // --- CONFIG (mirrors config.ts) ---
+        // TODO: replace with the real booking / discovery-call page.
+        // The React app keeps its own copy in config.ts — change both.
+        const BOOKING_URL = 'https://example.com/REPLACE-WITH-BOOKING-URL';
+
+        // Carries the numbers the prospect just saw through to the booking page.
+        const buildCtaUrl = (ctx) => {
+            const url = new URL(BOOKING_URL);
+            url.searchParams.set('utm_source', 'database-valuation-calculator');
+            url.searchParams.set('leads', String(ctx.leads));
+            url.searchParams.set('commission', String(ctx.commission));
+            url.searchParams.set('lead_source', ctx.leadSource);
+            url.searchParams.set('est_deals', String(ctx.recoverableDeals));
+            url.searchParams.set('est_value', String(ctx.pipelineValue));
+            return url.toString();
+        };
+
         // --- TYPES & CONSTANTS (mirrors types.ts) ---
         const LEAD_SOURCES = [
             { id: 'INTERNET', label: "Mostly Internet/Facebook Leads", rate: 0.015 },
@@ -156,7 +173,9 @@
         };
 
         // ValuationDisplay
-        const ValuationDisplay = ({ pipelineValue, recoverableDeals, recoveryRate }) => {
+        const ValuationDisplay = ({ pipelineValue, recoverableDeals, recoveryRate, leads, commission, leadSource }) => {
+            const ctaUrl = buildCtaUrl({ leads, commission, leadSource, recoverableDeals, pipelineValue });
+
             return (
                 <div className="bg-white rounded-2xl shadow-xl border border-slate-100 overflow-hidden relative transition-all duration-300 hover:shadow-2xl hover:scale-[1.01] h-full flex flex-col">
                     {/* Red Accent Bar for Loss Aversion */}
@@ -199,10 +218,15 @@
 
                         {/* Action Area */}
                         <div className="w-full space-y-3">
-                            <button className="w-full group relative flex items-center justify-center px-8 py-4 bg-red-600 hover:bg-red-700 text-white font-bold text-lg rounded-xl shadow-lg hover:shadow-red-500/30 transition-all active:scale-[0.98]">
+                            <a
+                                href={ctaUrl}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="w-full group relative flex items-center justify-center px-8 py-4 bg-red-600 hover:bg-red-700 text-white font-bold text-lg rounded-xl shadow-lg hover:shadow-red-500/30 transition-all active:scale-[0.98]"
+                            >
                                 Unlock this Revenue ($997 Pilot)
                                 <IconArrowRight className="ml-2 w-5 h-5 transition-transform group-hover:translate-x-1" />
-                            </button>
+                            </a>
                             <p className="text-xs text-slate-400">
                                 Includes $997 Pilot + Risk-Free Guarantee
                             </p>
@@ -306,7 +330,7 @@
 
                             {/* Right: Valuation Display */}
                             <div className="h-full">
-                                <ValuationDisplay pipelineValue={stats.pipelineValue} recoverableDeals={stats.recoverableDeals} recoveryRate={stats.recoveryRate} />
+                                <ValuationDisplay pipelineValue={stats.pipelineValue} recoverableDeals={stats.recoverableDeals} recoveryRate={stats.recoveryRate} leads={leads} commission={commission} leadSource={leadSource} />
                             </div>
 
                         </div>
