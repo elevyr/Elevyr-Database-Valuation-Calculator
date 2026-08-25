@@ -59,6 +59,9 @@ export const ValuationDisplay: React.FC<ValuationDisplayProps> = ({ pipelineValu
             <p className="text-xs text-slate-400">
                 Includes $997 Pilot + Risk-Free Guarantee
             </p>
+            <p className="text-[10px] text-slate-400 leading-tight">
+                *Pilot fee billed immediately. Monthly subscription billing begins 45 days after signup (allows 15 days setup + 30 days usage).
+            </p>
         </div>
 
       </div>
