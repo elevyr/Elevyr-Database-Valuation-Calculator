@@ -90,6 +90,9 @@ export default function App() {
                 pipelineValue={stats.pipelineValue} 
                 recoverableDeals={stats.recoverableDeals}
                 recoveryRate={stats.recoveryRate}
+                leads={leads}
+                commission={commission}
+                leadSource={leadSource}
              />
           </div>
 

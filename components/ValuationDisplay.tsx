@@ -1,14 +1,21 @@
 import React from 'react';
 import { AlertCircle, ArrowRight } from 'lucide-react';
 import { formatCurrency } from '../utils';
+import { buildCtaUrl } from '../config';
+import { LeadSourceType } from '../types';
 
 interface ValuationDisplayProps {
   pipelineValue: number;
   recoverableDeals: number;
   recoveryRate: number;
+  leads: number;
+  commission: number;
+  leadSource: LeadSourceType;
 }
 
-export const ValuationDisplay: React.FC<ValuationDisplayProps> = ({ pipelineValue, recoverableDeals, recoveryRate }) => {
+export const ValuationDisplay: React.FC<ValuationDisplayProps> = ({ pipelineValue, recoverableDeals, recoveryRate, leads, commission, leadSource }) => {
+  const ctaUrl = buildCtaUrl({ leads, commission, leadSource, recoverableDeals, pipelineValue });
+
   return (
     <div className="bg-white rounded-2xl shadow-xl border border-slate-100 overflow-hidden relative transition-all duration-300 hover:shadow-2xl hover:scale-[1.01] h-full flex flex-col">
       {/* Red Accent Bar for Loss Aversion */}
@@ -52,12 +59,20 @@ export const ValuationDisplay: React.FC<ValuationDisplayProps> = ({ pipelineValu
 
         {/* Action Area */}
         <div className="w-full space-y-3">
-            <button className="w-full group relative flex items-center justify-center px-8 py-4 bg-red-600 hover:bg-red-700 text-white font-bold text-lg rounded-xl shadow-lg hover:shadow-red-500/30 transition-all active:scale-[0.98]">
+            <a
+                href={ctaUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="w-full group relative flex items-center justify-center px-8 py-4 bg-red-600 hover:bg-red-700 text-white font-bold text-lg rounded-xl shadow-lg hover:shadow-red-500/30 transition-all active:scale-[0.98]"
+            >
                 Unlock this Revenue ($997 Pilot)
                 <ArrowRight className="ml-2 w-5 h-5 transition-transform group-hover:translate-x-1" />
-            </button>
+            </a>
             <p className="text-xs text-slate-400">
                 Includes $997 Pilot + Risk-Free Guarantee
+            </p>
+            <p className="text-[10px] text-slate-400 leading-tight">
+                *Pilot fee billed immediately. Monthly subscription billing begins 45 days after signup (allows 15 days setup + 30 days usage).
             </p>
         </div>
 

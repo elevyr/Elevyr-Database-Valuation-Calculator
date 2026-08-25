@@ -5,21 +5,10 @@ export enum LeadSourceType {
   REFERRAL = 'REFERRAL'
 }
 
-export enum StrategyType {
-  MANUAL = 'MANUAL',
-  AUTOMATED = 'AUTOMATED',
-  NONE = 'NONE'
-}
-
 export interface LeadSourceOption {
   id: LeadSourceType;
   label: string;
   rate: number;
-}
-
-export interface StrategyOption {
-  id: StrategyType;
-  label: string;
 }
 
 export interface CalculatorState {
@@ -43,20 +32,5 @@ export const LEAD_SOURCES: LeadSourceOption[] = [
     id: LeadSourceType.REFERRAL,
     label: "Referrals / Direct Mail",
     rate: 0.04 // 4.0%
-  }
-];
-
-export const STRATEGIES: StrategyOption[] = [
-  {
-    id: StrategyType.NONE,
-    label: "No Consistent Strategy"
-  },
-  {
-    id: StrategyType.MANUAL,
-    label: "Manual Follow-up"
-  },
-  {
-    id: StrategyType.AUTOMATED,
-    label: "Automated Drip Campaigns"
   }
 ];
